@@ -24,23 +24,58 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+    signingConfigs {
+
+        debug {
+//            storeFile file("../keystore/truckpad-shipper-debug.jks")
+//            storePassword APP_DEBUG_SIGN_KEY_PASSWORD_STORE
+//            keyAlias APP_DEBUG_SIGN_KEY_ALIAS
+//            keyPassword APP_DEBUG_SIGN_KEY_PASSWORD
+        }
+
         release {
+//            keyAlias keystoreProperties['keyAlias']
+//            keyPassword keystoreProperties['keyPassword']
+//            storeFile file(keystoreProperties['storeFile'])
+//            storePassword keystoreProperties['storePassword']
+        }
+    }
+
+    buildTypes {
+        debug {
+            manifestPlaceholders = [applicationLabel: "Alfred - Staging"]
+            versionNameSuffix "-debug"
+            applicationIdSuffix ".debug"
+            debuggable true
             minifyEnabled false
+            signingConfig signingConfigs.debug
+            buildConfigField "String", "BASE_URL", BASE_DEBUG_API
+        }
+
+        release {
+            manifestPlaceholders = [applicationLabel: "Alfred"]
+            debuggable false
+            minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", BASE_PROD_API
         }
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation project(":login")
+
+    implementation Dependencies.kotlinStdLib
+    implementation Dependencies.appCompat
+    implementation Dependencies.materialDesign
+    implementation Dependencies.cardView
+
+    implementation Dependencies.koin
+    implementation Dependencies.koinAndorid
+    implementation Dependencies.koinViewModel
+    implementation Dependencies.firebaseCrashlytics
 
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
     implementation 'com.google.firebase:firebase-core:17.2.1'
@@ -48,6 +83,5 @@ dependencies {
     implementation "com.google.firebase:firebase-firestore:21.3.1"
     implementation "com.google.firebase:firebase-storage:19.1.0"
     implementation "com.google.firebase:firebase-perf:19.0.4"
-    implementation "com.crashlytics.sdk.android:crashlytics:2.10.1"
 }
 apply plugin: 'com.google.gms.google-services'

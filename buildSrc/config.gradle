@@ -1,0 +1,13 @@
+android {
+    defaultConfig {
+        //Esse método serve para registrarmos as actions de cada activity para a navegação
+        //Dentro da aplicação. Veja o arquivo build.gradle em :libraries:action
+        ext.addActionTarget = { constantName, constantValue ->
+            manifestPlaceholders = [(constantName): constantValue]
+            buildConfigField "String", "${constantName}", "${constantValue}"
+            println("${manifestPlaceholders}")
+        }
+    }
+}
+
+

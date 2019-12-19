@@ -1,0 +1,4 @@
+ext.STRING = "String"
+ext.BASE_URL = "BASE_URL"
+ext.SESSION_URL = "SESSION_URL"
+ext.APPS_FLYER = "APPS_FLYER"
