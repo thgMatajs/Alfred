@@ -4,7 +4,7 @@
     package="com.gentalhacode.alfred">
 
     <application
-        android:name=".AlfredApplication"
+        android:name=".application.AlfredApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="${applicationLabel}"
@@ -12,13 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.SplashScreenActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".activities.SignInActivity"/>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.gentalhacode.alfred
+package com.gentalhacode.alfred.application
 
 import android.app.Application
 import com.crashlytics.android.Crashlytics
