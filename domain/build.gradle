@@ -1,8 +1,10 @@
 apply plugin: 'java-library'
+apply plugin: 'kotlin'
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-}
+    implementation project(":model")
+    implementation Dependencies.kotlinStdLib
+    implementation Dependencies.rxJava
+    implementation Dependencies.rxKotlin
 
-sourceCompatibility = "7"
-targetCompatibility = "7"
+}
