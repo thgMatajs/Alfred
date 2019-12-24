@@ -1,38 +1,34 @@
 package com.gentalhacode.domain.base
 
 import com.gentalhacode.domain.executor.PostExecutorThread
-import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
 /**
  * .:.:.:. Created by @thgMatajs on 23/12/19 .:.:.:.
  */
-abstract class FlowableUseCase<T, in Params> constructor(
+abstract class SingleUseCase<T, in Params> constructor(
     private val postExecutorThread: PostExecutorThread
 ) : BaseUseCase() {
 
-    abstract fun buildUseCaseFlowable(params: Params? = null): Flowable<T>
-
+    abstract fun buildUseCaseSingle(params: Params? = null): Single<T>
     fun execute(
         params: Params? = null,
-        onNext: (T) -> Unit,
-        onError: (e: Throwable) -> Unit,
-        onComplete: (() -> Unit)? = null
+        onSuccess: (T) -> Unit,
+        onError: (error: Throwable) -> Unit
     ) {
-        val flowable = this.buildUseCaseFlowable(params)
+        val single = this.buildUseCaseSingle(params)
             .subscribeOn(Schedulers.io())
             .observeOn(postExecutorThread.scheduler)
         addDisposable(
-            flowable.subscribe(
+            single.subscribe(
                 { t: T ->
-                    onNext.invoke(t)
+                    onSuccess.invoke(t)
                 },
                 { error ->
                     onError.invoke(error)
-                },
-                {
-                    onComplete?.invoke()
-                })
+                }
+            )
         )
     }
 }

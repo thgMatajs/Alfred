@@ -1,7 +1,5 @@
 package com.gentalhacode.model.entities
 
-import com.gentalhacode.model.entities.IHome
-
 /**
  * .:.:.:. Created by @thgMatajs on 23/12/19 .:.:.:.
  */
@@ -12,4 +10,5 @@ interface IUser {
     val image: String
     val nickName: String
     val homes: List<IHome>
+    val groceryShopping: List<IGrocery>
 }
