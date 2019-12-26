@@ -1,0 +1,12 @@
+apply plugin: 'java-library'
+
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation project(":model")
+    implementation project(":domain")
+    implementation Dependencies.kotlinStdLib
+    implementation Dependencies.rxJava
+    implementation Dependencies.rxKotlin
+    implementation Dependencies.koin
+}
