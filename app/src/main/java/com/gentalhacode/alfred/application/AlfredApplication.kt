@@ -2,6 +2,7 @@ package com.gentalhacode.alfred.application
 
 import android.app.Application
 import com.crashlytics.android.Crashlytics
+import com.gentalhacode.data.di.dataModule
 import com.gentalhacode.domain.di.domainModule
 import io.fabric.sdk.android.Fabric
 import org.koin.android.ext.koin.androidContext
@@ -26,7 +27,8 @@ class AlfredApplication : Application() {
             androidLogger()
             loadKoinModules(
                 listOf(
-                    domainModule
+                    domainModule,
+                    dataModule
                 )
             )
         }
