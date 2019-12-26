@@ -1,6 +1,9 @@
 package com.gentalhacode.domain.di
 
-import com.gentalhacode.domain.interactor.*
+import com.gentalhacode.domain.interactor.product.AddProductUseCase
+import com.gentalhacode.domain.interactor.product.DeleteProductUseCase
+import com.gentalhacode.domain.interactor.product.GetProductUseCase
+import com.gentalhacode.domain.interactor.shopping_list.*
 import org.koin.dsl.module
 
 /**
@@ -12,4 +15,8 @@ val domainModule = module {
     factory { GetAllShoppingListUseCase(get(), get()) }
     factory { GetShoppingListUseCase(get(), get()) }
     factory { UpdateShoppingListUseCase(get(), get()) }
+
+    factory { AddProductUseCase(get(), get()) }
+    factory { DeleteProductUseCase(get(), get()) }
+    factory { GetProductUseCase(get(), get()) }
 }

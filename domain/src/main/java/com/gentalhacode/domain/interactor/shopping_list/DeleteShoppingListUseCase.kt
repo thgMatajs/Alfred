@@ -1,4 +1,4 @@
-package com.gentalhacode.domain.interactor
+package com.gentalhacode.domain.interactor.shopping_list
 
 import com.gentalhacode.domain.base.CompletableUseCase
 import com.gentalhacode.domain.exceptions.Exceptions
@@ -10,13 +10,13 @@ import io.reactivex.Completable
 /**
  * .:.:.:. Created by @thgMatajs on 23/12/19 .:.:.:.
  */
-class CreateShoppingListUseCase(
+class DeleteShoppingListUseCase(
     private val repository: ShoppingListRepository,
     postExecutorThread: PostExecutorThread
-): CompletableUseCase<IGrocery>(postExecutorThread) {
+) : CompletableUseCase<IGrocery>(postExecutorThread) {
     override fun buildUseCaseCompletable(params: IGrocery?): Completable {
         return if (params != null) {
-            repository.create(params)
+            repository.delete(params)
         } else {
             Completable.error(Exceptions.paramsIsNull)
         }

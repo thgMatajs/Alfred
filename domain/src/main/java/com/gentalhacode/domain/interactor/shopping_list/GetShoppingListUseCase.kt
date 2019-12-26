@@ -1,4 +1,4 @@
-package com.gentalhacode.domain.interactor
+package com.gentalhacode.domain.interactor.shopping_list
 
 import com.gentalhacode.domain.base.SingleUseCase
 import com.gentalhacode.domain.exceptions.Exceptions
