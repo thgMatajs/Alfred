@@ -29,9 +29,9 @@ internal object Versions {
     const val okHttpLoggingInterceptor = okHttp
     const val retrofit = "2.6.1"
 
-    const val firebaseCore = "17.0.0"
+    const val firebaseCore = "17.2.1"
     const val firebaseCrashlytics = "2.10.1"
-    const val firebaseAuth = "18.0.0"
+    const val firebaseAuth = "19.2.0"
 
     const val rxFirebaseAuthKotlin = "16.1.0.0"
     const val rxFirebaseAuth = "16.1.0.0"

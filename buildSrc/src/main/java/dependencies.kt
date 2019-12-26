@@ -24,18 +24,19 @@ object Dependencies {
     val okhttpLogger =
         "com.squareup.okhttp3:logging-interceptor:${Versions.okHttpLoggingInterceptor}"
 
+    /*Firebase*/
     val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
     val firebaseAnalytics = "com.google.firebase:firebase-analytics:${Versions.firebaseCore}"
-    val firebaseCrashlytics =
-        "com.crashlytics.sdk.android:crashlytics:${Versions.firebaseCrashlytics}"
+    val firebaseCrashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.firebaseCrashlytics}"
     val firebaseAuth = "com.google.firebase:firebase-auth:${Versions.firebaseAuth}"
-
-    val rxFirebaseAuthKotlin =
-        "com.androidhuman.rxfirebase2:firebase-auth-kotlin:${Versions.rxFirebaseAuthKotlin}"
+    val firebaseStorage = "com.google.firebase:firebase-storage:19.1.0"
+    val firebaseFireStore = "com.google.firebase:firebase-firestore:21.3.1"
+    val firebasePerformance = "com.google.firebase:firebase-perf:19.0.4"
+    val servicesAuth = "com.google.android.gms:play-services-auth:17.0.0"
+    val rxFirebaseAuthKotlin = "com.androidhuman.rxfirebase2:firebase-auth-kotlin:${Versions.rxFirebaseAuthKotlin}"
     val rxFirebaseAuth = "com.androidhuman.rxfirebase2:firebase-auth:${Versions.rxFirebaseAuth}"
-
     val rxFirebaseCore = "com.androidhuman.rxfirebase2:firebase-core:${Versions.rxFirebaseCore}"
-
+    /*Firebase*/
 
     val appCompat = "androidx.appcompat:appcompat:${Versions.supportLibrary}"
     val cardView = "androidx.cardview:cardview:${Versions.cardView}"

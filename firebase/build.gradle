@@ -3,9 +3,16 @@ apply plugin: 'kotlin'
 
 dependencies {
     implementation project(":model")
-    implementation project(":domain")
+    implementation project(":data")
+
     implementation Dependencies.kotlinStdLib
     implementation Dependencies.rxJava
     implementation Dependencies.rxKotlin
     implementation Dependencies.koin
+
+    implementation Dependencies.firebaseCore
+    implementation Dependencies.firebaseAuth
+    implementation Dependencies.firebaseFireStore
+    implementation Dependencies.firebaseStorage
+
 }

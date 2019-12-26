@@ -1,2 +1,2 @@
-include ':app', ':model', ':domain', ':data'
+include ':app', ':model', ':domain', ':data', ':firebase'
 rootProject.name='Alfred'
