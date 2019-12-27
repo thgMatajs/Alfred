@@ -59,7 +59,7 @@ class ShoppingListFirebaseImplementation(
             collection.document(id)
                 .addSnapshotListener { documentSnapshot, error ->
                     if (error == null) {
-                        documentSnapshot?.toObject(IGrocery::class.java)?.let { emitter.onSuccess(it) }
+                        documentSnapshot?.toObject(FirebaseGrocery::class.java)?.let { emitter.onSuccess(it) }
                     } else {
                         emitter.onError(error)
                     }
@@ -69,14 +69,7 @@ class ShoppingListFirebaseImplementation(
 
     override fun getAll(): Flowable<List<IGrocery>> {
         return Flowable.create({emitter ->
-            val user = FirebaseUser(
-                id = currentUser?.uid ?: "",
-                name = currentUser?.displayName ?: "",
-                email = currentUser?.email ?: "",
-                image = currentUser?.photoUrl.toString(),
-                nickName = "THG_GENTALHA"
-            )
-            collection.whereArrayContains(FieldPath.of("users"), currentUser?.uid as Any)
+            collection.whereArrayContains(FieldPath.of(USERS_KEY), currentUser?.uid as Any)
                 .addSnapshotListener { result, error ->
                     if (error == null && result != null) {
                         val list = result.map { document ->
