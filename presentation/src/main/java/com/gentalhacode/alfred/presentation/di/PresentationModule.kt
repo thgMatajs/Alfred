@@ -2,6 +2,7 @@ package com.gentalhacode.alfred.presentation.di
 
 import com.gentalhacode.alfred.presentation.execution.UiThread
 import com.gentalhacode.alfred.presentation.shopping_list.CreateShoppingListViewModel
+import com.gentalhacode.alfred.presentation.shopping_list.GetAllShoppingListViewModel
 import com.gentalhacode.domain.executor.PostExecutorThread
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -12,4 +13,5 @@ import org.koin.dsl.module
 val presentationModule = module {
     factory<PostExecutorThread> { UiThread() }
     viewModel { CreateShoppingListViewModel(get()) }
+    viewModel { GetAllShoppingListViewModel(get()) }
 }

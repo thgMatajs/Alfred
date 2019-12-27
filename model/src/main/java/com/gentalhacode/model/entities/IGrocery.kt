@@ -6,6 +6,6 @@ package com.gentalhacode.model.entities
 interface IGrocery {
     var id: String
     val products: List<IProduct>
-    val users: List<IUser>
+    val users: List<String>
     val isActive: Boolean
 }

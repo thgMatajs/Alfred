@@ -2,8 +2,11 @@ package com.gentalhacode.fire_base.impl.shopping_list
 
 import com.gentalhacode.data.shopping_list.repository.ShoppingListFirebase
 import com.gentalhacode.fire_base.BuildConfig
+import com.gentalhacode.fire_base.impl.model.FirebaseGrocery
+import com.gentalhacode.fire_base.impl.model.FirebaseUser
 import com.gentalhacode.model.entities.IGrocery
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
@@ -66,14 +69,22 @@ class ShoppingListFirebaseImplementation(
 
     override fun getAll(): Flowable<List<IGrocery>> {
         return Flowable.create({emitter ->
-            fireStore.collectionGroup(USERS_KEY).whereEqualTo(ID_KEY, currentUser?.uid)
+            val user = FirebaseUser(
+                id = currentUser?.uid ?: "",
+                name = currentUser?.displayName ?: "",
+                email = currentUser?.email ?: "",
+                image = currentUser?.photoUrl.toString(),
+                nickName = "THG_GENTALHA"
+            )
+            collection.whereArrayContains(FieldPath.of("users"), currentUser?.uid as Any)
                 .addSnapshotListener { result, error ->
-                    if (error == null) {
-                        result?.map { document ->
-                            document.toObject(IGrocery::class.java)
-                        }?.let { emitter.onNext(it) }
+                    if (error == null && result != null) {
+                        val list = result.map { document ->
+                            document.toObject(FirebaseGrocery::class.java)
+                        }
+                        emitter.onNext(list)
                     } else {
-                        emitter.onError(error)
+                        emitter.onError(error?.cause ?: IllegalArgumentException("Deu Merda"))
                     }
                 }
         }, BackpressureStrategy.LATEST)
