@@ -1,0 +1,16 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply from:"../build-system/android-module.gradle"
+
+dependencies {
+    implementation project(":domain")
+
+    implementation Dependencies.kotlinStdLib
+    implementation Dependencies.appCompat
+    implementation Dependencies.androidxCore
+    implementation Dependencies.rxJava
+    implementation Dependencies.rxKotlin
+    implementation Dependencies.koin
+    implementation Dependencies.koinViewModel
+}
