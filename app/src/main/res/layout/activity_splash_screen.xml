@@ -10,7 +10,7 @@
         android:id="@+id/splashIcLogo"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/ic_butler"
+        app:srcCompat="@drawable/ic_butler"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/splashTxtLogo"
         app:layout_constraintEnd_toEndOf="parent"

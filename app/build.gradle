@@ -71,6 +71,7 @@ dependencies {
     implementation project(":domain")
     implementation project(":model")
     implementation project(":data")
+    implementation project(":fire_base")
 
     implementation Dependencies.kotlinStdLib
     implementation Dependencies.appCompat

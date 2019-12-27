@@ -1,5 +1,7 @@
-apply plugin: 'java-library'
-apply plugin: 'kotlin'
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply from:"../build-system/android-module.gradle"
 
 dependencies {
     implementation project(":model")
@@ -14,5 +16,4 @@ dependencies {
     implementation Dependencies.firebaseAuth
     implementation Dependencies.firebaseFireStore
     implementation Dependencies.firebaseStorage
-
 }
