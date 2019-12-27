@@ -1,4 +1,4 @@
-package com.gentalhacode.alfred.extensions
+package com.gentalhacode.alfred.presentation.extensions
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator

@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.gentalhacode.alfred.MainActivity
 import com.gentalhacode.alfred.R
-import com.gentalhacode.alfred.extensions.animateContentIn
+import com.gentalhacode.alfred.presentation.extensions.animateContentIn
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext

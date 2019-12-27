@@ -2,14 +2,13 @@ package com.gentalhacode.alfred.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieAnimationView
 import com.gentalhacode.alfred.BuildConfig
 import com.gentalhacode.alfred.MainActivity
 import com.gentalhacode.alfred.R
-import com.gentalhacode.alfred.extensions.setGone
-import com.gentalhacode.alfred.extensions.setVisible
+import com.gentalhacode.alfred.presentation.extensions.setGone
+import com.gentalhacode.alfred.presentation.extensions.setVisible
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient

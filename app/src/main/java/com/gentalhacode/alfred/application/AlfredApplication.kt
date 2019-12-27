@@ -2,6 +2,7 @@ package com.gentalhacode.alfred.application
 
 import android.app.Application
 import com.crashlytics.android.Crashlytics
+import com.gentalhacode.alfred.presentation.di.presentationModule
 import com.gentalhacode.data.di.dataModule
 import com.gentalhacode.domain.di.domainModule
 import com.gentalhacode.fire_base.di.firebaseModule
@@ -30,7 +31,8 @@ class AlfredApplication : Application() {
                 listOf(
                     domainModule,
                     dataModule,
-                    firebaseModule
+                    firebaseModule,
+                    presentationModule
                 )
             )
         }

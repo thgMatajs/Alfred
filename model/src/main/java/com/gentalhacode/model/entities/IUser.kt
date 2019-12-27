@@ -9,6 +9,6 @@ interface IUser {
     val email: String
     val image: String
     val nickName: String
-    val homes: List<IHome>
-    val groceryShopping: List<IGrocery>
+//    val homes: List<IHome>
+//    val groceryShopping: List<IGrocery>
 }

@@ -72,6 +72,7 @@ dependencies {
     implementation project(":model")
     implementation project(":data")
     implementation project(":fire_base")
+    implementation project(":presentation")
 
     implementation Dependencies.kotlinStdLib
     implementation Dependencies.appCompat
@@ -87,6 +88,10 @@ dependencies {
 
     implementation Dependencies.coroutines
     implementation Dependencies.coroutinesAndroid
+
+    implementation Dependencies.rxAndroid
+    implementation Dependencies.rxJava
+    implementation Dependencies.rxKotlin
 
     implementation Dependencies.firebaseAnalytics
     implementation Dependencies.firebaseCore

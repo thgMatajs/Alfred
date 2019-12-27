@@ -5,12 +5,14 @@ apply from:"../build-system/android-module.gradle"
 
 dependencies {
     implementation project(":domain")
+    implementation project(":model")
 
     implementation Dependencies.kotlinStdLib
     implementation Dependencies.appCompat
     implementation Dependencies.androidxCore
     implementation Dependencies.rxJava
     implementation Dependencies.rxKotlin
+    implementation Dependencies.rxAndroid
     implementation Dependencies.koin
     implementation Dependencies.koinViewModel
 }
