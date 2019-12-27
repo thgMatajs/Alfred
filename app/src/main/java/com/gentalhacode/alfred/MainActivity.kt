@@ -12,6 +12,7 @@ import com.gentalhacode.alfred.presentation.extensions.loggerE
 import com.gentalhacode.alfred.presentation.extensions.loggerL
 import com.gentalhacode.alfred.presentation.extensions.loggerS
 import com.gentalhacode.alfred.presentation.shopping_list.CreateShoppingListViewModel
+import com.gentalhacode.alfred.presentation.shopping_list.DeleteShoppingListViewModel
 import com.gentalhacode.alfred.presentation.shopping_list.GetAllShoppingListViewModel
 import com.gentalhacode.alfred.presentation.shopping_list.GetShoppingListViewModel
 import com.gentalhacode.model.entities.IGrocery
@@ -27,8 +28,10 @@ class MainActivity : AppCompatActivity() {
     private val createViewModel: CreateShoppingListViewModel by viewModel()
     private val getAllViewModel: GetAllShoppingListViewModel by viewModel()
     private val getViewModel: GetShoppingListViewModel by viewModel()
+    private val deleteViewModel: DeleteShoppingListViewModel by viewModel()
     private val fbAuth: FirebaseAuth by inject()
     private val currentUser: FirebaseUser? by lazy { fbAuth.currentUser }
+    private lateinit var deleteShoppingList: IGrocery
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         observeCreateShoppingListLiveData()
         observeGetAllShoppingListLiveData()
         observeGetShoppingListLiveData()
+        observeDeleteShoppingListLiveData()
         initActionsViews()
 
     }
@@ -44,13 +48,17 @@ class MainActivity : AppCompatActivity() {
     private fun initActionsViews() {
         btnLogout.setOnClickListener { signOut() }
         btnCreate.setOnClickListener {
-            createViewModel.create(makeShoppingList())
+            deleteShoppingList = makeShoppingList()
+            createViewModel.create(deleteShoppingList)
         }
         btnGetAll.setOnClickListener {
             getAllViewModel.getAll()
         }
         btnGetOne.setOnClickListener {
             getViewModel.get("c2cc8c55-882d-4957-8fb3-88c09bbb1ae8")
+        }
+        btnDelete.setOnClickListener {
+            deleteViewModel.delete(deleteShoppingList)
         }
     }
 
@@ -76,6 +84,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeGetShoppingListLiveData() {
         getViewModel.observeGetShoppingListLiveData().observe(this, Observer { viewState ->
+            viewState.handle(
+                onLoading = { loggerL() },
+                onSuccess = { loggerS(it.toString()) },
+                onFailure = { loggerE(it?.message ?: "")}
+            )
+        })
+    }
+
+    private fun observeDeleteShoppingListLiveData() {
+        deleteViewModel.observeDeleteLiveData().observe(this, Observer { viewState ->
             viewState.handle(
                 onLoading = { loggerL() },
                 onSuccess = { loggerS(it.toString()) },
