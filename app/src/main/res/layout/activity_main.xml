@@ -1,84 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:id="@+id/btnLogout"
-        android:layout_width="0dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvProduct"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bar"
+        style="@style/Widget.MaterialComponents.BottomAppBar"
+        app:fabAlignmentMode="end"
+        android:backgroundTint="#E4E4E4"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:text="Deslogar"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toTopOf="@+id/btnCreate"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="bottom"
+        />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:id="@+id/btnCreate"
-        android:layout_width="0dp"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:text="Criar Lista de compras"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/colorAccent"
-        app:layout_constraintBottom_toTopOf="@+id/btnGetAll"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogout" />
+        android:src="@drawable/ic_add"
+        app:layout_anchor="@id/bar"/>
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:id="@+id/btnGetAll"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:text="Carregar Listas de compras"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/colorAccent"
-        app:layout_constraintBottom_toTopOf="@+id/btnGetOne"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCreate" />
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:id="@+id/btnGetOne"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:text="Carregar uma Lista de compras"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/colorAccent"
-        app:layout_constraintBottom_toTopOf="@+id/btnDelete"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGetAll" />
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:id="@+id/btnDelete"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:text="Deletar Lista de compras"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGetOne" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

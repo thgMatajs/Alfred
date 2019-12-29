@@ -12,5 +12,17 @@ data class ViewProduct(
     override val barcode: String,
     override val price: String,
     override val amount: String,
-    override val isInTheCart: Boolean
+    override var isInTheCart: Boolean,
+    override val brand: String
 ) : IProduct
+
+fun IProduct.toView() = ViewProduct(
+    id = id,
+    name = name,
+    image = image,
+    barcode = barcode,
+    price = price,
+    amount = amount,
+    isInTheCart = isInTheCart,
+    brand = brand
+)

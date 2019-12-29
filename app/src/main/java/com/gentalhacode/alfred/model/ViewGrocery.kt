@@ -10,6 +10,6 @@ import com.gentalhacode.model.entities.IUser
 data class ViewGrocery(
     override var id: String,
     override val products: List<IProduct>,
-    override val users: List<String>,
+    override val emailUsers: List<String>,
     override val isActive: Boolean
 ) : IGrocery

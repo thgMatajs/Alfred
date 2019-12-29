@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.gentalhacode.alfred.activities.SignInActivity
+import com.gentalhacode.alfred.adapters.ShoppingListAdapter
 import com.gentalhacode.alfred.model.ViewGrocery
 import com.gentalhacode.alfred.model.ViewProduct
 import com.gentalhacode.alfred.model.ViewUser
+import com.gentalhacode.alfred.model.toView
 import com.gentalhacode.alfred.presentation.extensions.loggerE
 import com.gentalhacode.alfred.presentation.extensions.loggerL
 import com.gentalhacode.alfred.presentation.extensions.loggerS
@@ -16,6 +18,7 @@ import com.gentalhacode.alfred.presentation.shopping_list.DeleteShoppingListView
 import com.gentalhacode.alfred.presentation.shopping_list.GetAllShoppingListViewModel
 import com.gentalhacode.alfred.presentation.shopping_list.GetShoppingListViewModel
 import com.gentalhacode.model.entities.IGrocery
+import com.gentalhacode.model.entities.IUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
@@ -30,23 +33,31 @@ class MainActivity : AppCompatActivity() {
     private val getViewModel: GetShoppingListViewModel by viewModel()
     private val deleteViewModel: DeleteShoppingListViewModel by viewModel()
     private val fbAuth: FirebaseAuth by inject()
-    private val currentUser: FirebaseUser? by lazy { fbAuth.currentUser }
+    private val currentUser: ViewUser by inject()
+    private lateinit var currentShoppingList: IGrocery
     private lateinit var deleteShoppingList: IGrocery
+
+    private val adapter: ShoppingListAdapter by lazy {
+        ShoppingListAdapter { product, isChecked ->
+            currentShoppingList.products.first { product.id == it.id }.isInTheCart = isChecked
+            createViewModel.create(currentShoppingList)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        observeCreateShoppingListLiveData()
-        observeGetAllShoppingListLiveData()
+        getViewModel.get("c2cc8c55-882d-4957-8fb3-88c09bbb1ae8")
+//        observeCreateShoppingListLiveData()
+//        observeGetAllShoppingListLiveData()
         observeGetShoppingListLiveData()
         observeDeleteShoppingListLiveData()
         initActionsViews()
-
     }
 
     private fun initActionsViews() {
-        btnLogout.setOnClickListener { signOut() }
+        rvProduct.adapter = adapter
+        /*btnLogout.setOnClickListener { signOut() }
         btnCreate.setOnClickListener {
             deleteShoppingList = makeShoppingList()
             createViewModel.create(deleteShoppingList)
@@ -59,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         }
         btnDelete.setOnClickListener {
             deleteViewModel.delete(deleteShoppingList)
-        }
+        }*/
     }
 
     private fun observeCreateShoppingListLiveData() {
@@ -67,7 +78,7 @@ class MainActivity : AppCompatActivity() {
             viewState.handle(
                 onLoading = { loggerL() },
                 onSuccess = { loggerS() },
-                onFailure = { loggerE(it?.message ?: "")}
+                onFailure = { loggerE(it?.message ?: "") }
             )
         })
     }
@@ -77,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             viewState.handle(
                 onLoading = { loggerL() },
                 onSuccess = { loggerS(it.toString()) },
-                onFailure = { loggerE(it?.message ?: "")}
+                onFailure = { loggerE(it?.message ?: "") }
             )
         })
     }
@@ -86,8 +97,19 @@ class MainActivity : AppCompatActivity() {
         getViewModel.observeGetShoppingListLiveData().observe(this, Observer { viewState ->
             viewState.handle(
                 onLoading = { loggerL() },
-                onSuccess = { loggerS(it.toString()) },
-                onFailure = { loggerE(it?.message ?: "")}
+                onSuccess = {
+                    loggerS(it.toString())
+                    it?.let { iGrocery ->
+                        currentShoppingList = iGrocery
+                        val products = it.products.map { product ->
+                            product.toView()
+                        }
+                        adapter.submitList(products)
+                        loggerS(products.toString())
+                    }
+
+                },
+                onFailure = { loggerE(it?.message ?: "") }
             )
         })
     }
@@ -97,37 +119,17 @@ class MainActivity : AppCompatActivity() {
             viewState.handle(
                 onLoading = { loggerL() },
                 onSuccess = { loggerS(it.toString()) },
-                onFailure = { loggerE(it?.message ?: "")}
+                onFailure = { loggerE(it?.message ?: "") }
             )
         })
     }
 
     private fun makeShoppingList(): IGrocery {
-
-        val product = ViewProduct(
-            id = UUID.randomUUID().toString(),
-            image = "pathImage",
-            name = "Batata_1",
-            price = "5.50",
-            amount = "6",
-            barcode = "HAHAHAJJJ121231231",
-            isInTheCart = false
-        )
-
-        val product1 = ViewProduct(
-            id = UUID.randomUUID().toString(),
-            image = "pathImage",
-            name = "Pera_2",
-            price = "3.50",
-            amount = "2",
-            barcode = "HAHAHAJJJ121231231",
-            isInTheCart = false
-        )
         return ViewGrocery(
             id = UUID.randomUUID().toString(),
             isActive = true,
-            products = listOf(product1, product),
-            users = listOf(currentUser?.uid ?: "")
+            products = listOf(),
+            emailUsers = listOf(currentUser.email)
         )
     }
 

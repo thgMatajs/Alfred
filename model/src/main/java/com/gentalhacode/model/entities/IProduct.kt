@@ -10,5 +10,6 @@ interface IProduct {
     val barcode: String
     val price: String
     val amount: String
-    val isInTheCart: Boolean
+    val brand: String
+    var isInTheCart: Boolean
 }

@@ -21,7 +21,7 @@ import java.util.*
  */
 class ShoppingListFirebaseImplementation(
     fbAuth: FirebaseAuth,
-    private val fireStore: FirebaseFirestore
+    fireStore: FirebaseFirestore
 ) : ShoppingListFirebase {
 
     private val storageRef = FirebaseStorage.getInstance().reference.child(SHOPPING_LIST_COLLECTION_NAME)
@@ -69,7 +69,7 @@ class ShoppingListFirebaseImplementation(
 
     override fun getAll(): Flowable<List<IGrocery>> {
         return Flowable.create({emitter ->
-            collection.whereArrayContains(FieldPath.of(USERS_KEY), currentUser?.uid as Any)
+            collection.whereArrayContains(FieldPath.of(USERS_KEY), currentUser?.email as Any)
                 .addSnapshotListener { result, error ->
                     if (error == null && result != null) {
                         val list = result.map { document ->

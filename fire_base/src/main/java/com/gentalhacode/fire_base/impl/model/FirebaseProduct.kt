@@ -12,5 +12,6 @@ data class FirebaseProduct(
     override val barcode: String = "",
     override val price: String = "",
     override val amount: String = "",
-    override val isInTheCart: Boolean = false
+    override var isInTheCart: Boolean = false,
+    override val brand: String = ""
 ): IProduct
