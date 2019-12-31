@@ -50,13 +50,23 @@
             android:id="@+id/itemProductTvAmount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="2"
-            android:textSize="20sp"
             android:layout_marginTop="4dp"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/itemProductTvTitle"
-            app:layout_constraintEnd_toEndOf="@id/itemProductTvTitle"
             app:layout_constraintTop_toBottomOf="@id/itemProductTvBrand"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            tools:text="2" />
+
+        <TextView
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:id="@+id/itemProductBtnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:drawableStart="@drawable/ic_delete"
+            app:layout_constraintTop_toTopOf="@+id/itemProductTvAmount"
+            app:layout_constraintEnd_toEndOf="@id/itemProductTvBrand"
+            />
 
         <CheckBox
             android:id="@+id/itemProductCb"

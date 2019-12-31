@@ -38,16 +38,25 @@ class MainActivity : AppCompatActivity() {
     private lateinit var currentShoppingList: ViewGrocery
 
     private val adapter: ShoppingListAdapter by lazy {
-        ShoppingListAdapter { product, checked ->
-            val mutableList = currentShoppingList.products.toMutableList()
-            mutableList.map {
-                if (it.id == product.id) {
-                    it.isInTheCart = checked
+        ShoppingListAdapter(
+            isChecked = { product, checked ->
+                val mutableList = currentShoppingList.products.toMutableList()
+                mutableList.map {
+                    if (it.id == product.id) {
+                        it.isInTheCart = checked
+                    }
                 }
-            }
-            currentShoppingList.products = mutableList
-            createViewModel.create(currentShoppingList)
-        }
+                currentShoppingList.products = mutableList
+                createViewModel.create(currentShoppingList)
+            },
+            deleteOnClick = { viewProduct ->
+                val mutableList = currentShoppingList.products.toMutableList()
+                mutableList.removeAll { iProduct ->
+                    iProduct.id == viewProduct.id
+                }
+                currentShoppingList.products = mutableList
+                createViewModel.create(currentShoppingList)
+            })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

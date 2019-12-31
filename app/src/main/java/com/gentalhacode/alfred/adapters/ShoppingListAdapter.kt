@@ -10,12 +10,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.gentalhacode.alfred.R
 import com.gentalhacode.alfred.model.ViewProduct
+import com.gentalhacode.util.ParamBlock
 
 /**
  * .:.:.:. Created by @thgMatajs on 29/12/19 .:.:.:.
  */
 class ShoppingListAdapter(
-    private val isChecked: (ViewProduct, Boolean) -> Unit
+    private val isChecked: (ViewProduct, Boolean) -> Unit,
+    private val deleteOnClick: ParamBlock<ViewProduct>
 ) : ListAdapter<ViewProduct, ShoppingListAdapter.ViewHolder>(DiffUtilCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,12 +30,13 @@ class ShoppingListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), isChecked)
+        holder.bind(getItem(position), isChecked, deleteOnClick)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(product: ViewProduct, checked: (ViewProduct, Boolean) -> Unit) {
+        fun bind(product: ViewProduct, checked: (ViewProduct, Boolean) -> Unit,
+                 deleteOnClick: ParamBlock<ViewProduct>) {
             itemView.run {
                 findViewById<TextView>(R.id.itemProductTvTitle).text = product.name
                 findViewById<TextView>(R.id.itemProductTvAmount).text = product.amount
@@ -44,6 +47,9 @@ class ShoppingListAdapter(
                         checked.invoke(product, _isChecked)
                     }
                     isChecked = product.isInTheCart
+                }
+                findViewById<TextView>(R.id.itemProductBtnDelete).setOnClickListener {
+                    deleteOnClick.invoke(product)
                 }
             }
         }
