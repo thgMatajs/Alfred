@@ -5,4 +5,5 @@ package com.gentalhacode.alfred.presentation.extensions
  */
 fun loggerL() = println("THG_LOG:: ..LOADING..")
 fun loggerS(data: String = "") = println("THG_LOG:: SUCCESS --> $data")
+fun loggerD(data: String = "") = println("THG_LOG:: DEBUG --> $data")
 fun loggerE(error: String) = println("THG_LOG:: ERROR --> $error")

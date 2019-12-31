@@ -7,7 +7,7 @@ import com.gentalhacode.model.entities.IGrocery
  */
 data class FirebaseGrocery(
     override var id: String = "",
-    override val products: List<FirebaseProduct> = emptyList(),
+    override var products: List<FirebaseProduct> = emptyList(),
     override val emailUsers: List<String> = emptyList(),
-    override val isActive: Boolean = false
+    override val active: Boolean = false
 ): IGrocery

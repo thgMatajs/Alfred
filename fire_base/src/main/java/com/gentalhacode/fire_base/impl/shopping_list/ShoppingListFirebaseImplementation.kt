@@ -56,20 +56,32 @@ class ShoppingListFirebaseImplementation(
 
     override fun get(id: String): Single<IGrocery> {
         return Single.create { emitter ->
-            collection.document(id)
-                .addSnapshotListener { documentSnapshot, error ->
-                    if (error == null) {
-                        documentSnapshot?.toObject(FirebaseGrocery::class.java)?.let { emitter.onSuccess(it) }
+            collection.whereArrayContains(FieldPath.of(USERS_KEY), currentUser?.email as Any).whereEqualTo("active", true)
+                .addSnapshotListener { result, error ->
+                    if (error == null && result != null) {
+                        val list = result.map { document ->
+                            document.toObject(FirebaseGrocery::class.java)
+                        }
+                        emitter.onSuccess(list.first())
                     } else {
-                        emitter.onError(error)
+                        emitter.onError(error?.cause ?: IllegalArgumentException("Deu Merda"))
                     }
                 }
+//            collection.document(id)
+//                .addSnapshotListener { documentSnapshot, error ->
+//                    if (error == null) {
+//                        documentSnapshot?.toObject(FirebaseGrocery::class.java)?.let { emitter.onSuccess(it) }
+//                    } else {
+//                        emitter.onError(error)
+//                    }
+//                }
+
         }
     }
 
     override fun getAll(): Flowable<List<IGrocery>> {
         return Flowable.create({emitter ->
-            collection.whereArrayContains(FieldPath.of(USERS_KEY), currentUser?.email as Any)
+            collection.whereArrayContains(FieldPath.of(USERS_KEY), currentUser?.email as Any).whereEqualTo("active", true)
                 .addSnapshotListener { result, error ->
                     if (error == null && result != null) {
                         val list = result.map { document ->
@@ -100,7 +112,7 @@ class ShoppingListFirebaseImplementation(
 
     companion object {
         const val SHOPPING_LIST_COLLECTION_NAME = "shopping_list"
-        const val USERS_KEY = "users"
+        const val USERS_KEY = "emailUsers"
         const val ID_KEY = "id"
         const val COVER_URL_KEY = "coverUrl"
     }

@@ -2,6 +2,8 @@ package com.gentalhacode.alfred.di
 
 import com.gentalhacode.alfred.model.ViewUser
 import com.gentalhacode.model.entities.IUser
+import com.gentalhacode.util.SharedUtil
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 /**
@@ -9,4 +11,5 @@ import org.koin.dsl.module
  */
 val appModule = module {
     single { ViewUser.getUser() }
+    single { SharedUtil(androidContext()) }
 }
