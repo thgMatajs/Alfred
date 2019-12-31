@@ -24,7 +24,8 @@ class ShoppingListFirebaseImplementation(
     fireStore: FirebaseFirestore
 ) : ShoppingListFirebase {
 
-    private val storageRef = FirebaseStorage.getInstance().reference.child(SHOPPING_LIST_COLLECTION_NAME)
+    private val storageRef =
+        FirebaseStorage.getInstance().reference.child(SHOPPING_LIST_COLLECTION_NAME)
     private val currentUser = fbAuth.currentUser
     private val collection = fireStore.collection(BuildConfig.BASE_URL)
 
@@ -56,7 +57,8 @@ class ShoppingListFirebaseImplementation(
 
     override fun get(id: String): Single<IGrocery> {
         return Single.create { emitter ->
-            collection.whereArrayContains(FieldPath.of(USERS_KEY), currentUser?.email as Any).whereEqualTo("active", true)
+            collection.whereArrayContains(FieldPath.of(USERS_KEY), currentUser?.email as Any)
+                .whereEqualTo("active", true)
                 .addSnapshotListener { result, error ->
                     if (error == null && result != null) {
                         val list = result.map { document ->
@@ -80,8 +82,9 @@ class ShoppingListFirebaseImplementation(
     }
 
     override fun getAll(): Flowable<List<IGrocery>> {
-        return Flowable.create({emitter ->
-            collection.whereArrayContains(FieldPath.of(USERS_KEY), currentUser?.email as Any).whereEqualTo("active", true)
+        return Flowable.create({ emitter ->
+            collection.whereArrayContains(FieldPath.of(USERS_KEY), currentUser?.email as Any)
+                .whereEqualTo("active", true)
                 .addSnapshotListener { result, error ->
                     if (error == null && result != null) {
                         val list = result.map { document ->

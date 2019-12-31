@@ -15,7 +15,7 @@ import com.gentalhacode.alfred.model.ViewProduct
  * .:.:.:. Created by @thgMatajs on 29/12/19 .:.:.:.
  */
 class ShoppingListAdapter(
-    private val isChecked: (ViewProduct) -> Unit
+    private val isChecked: (ViewProduct, Boolean) -> Unit
 ) : ListAdapter<ViewProduct, ShoppingListAdapter.ViewHolder>(DiffUtilCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,18 +33,17 @@ class ShoppingListAdapter(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(product: ViewProduct, checked: (ViewProduct) -> Unit) {
+        fun bind(product: ViewProduct, checked: (ViewProduct, Boolean) -> Unit) {
             itemView.run {
                 findViewById<TextView>(R.id.itemProductTvTitle).text = product.name
                 findViewById<TextView>(R.id.itemProductTvAmount).text = product.amount
                 findViewById<TextView>(R.id.itemProductTvBrand).text = product.brand
 //                findViewById<ImageView>(R.id.itemProductIv)
                 findViewById<CheckBox>(R.id.itemProductCb).apply {
-                    isChecked = product.isInTheCart
                     setOnCheckedChangeListener { _, _isChecked ->
-                        product.isInTheCart = _isChecked
-                        checked.invoke(product)
+                        checked.invoke(product, _isChecked)
                     }
+                    isChecked = product.isInTheCart
                 }
             }
         }

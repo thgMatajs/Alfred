@@ -1,14 +1,14 @@
 package com.gentalhacode.alfred
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.gentalhacode.alfred.activities.SignInActivity
 import com.gentalhacode.alfred.adapters.ShoppingListAdapter
 import com.gentalhacode.alfred.fragments.ProductBottomSheet
 import com.gentalhacode.alfred.model.ViewGrocery
-import com.gentalhacode.alfred.model.ViewProduct
 import com.gentalhacode.alfred.model.ViewUser
 import com.gentalhacode.alfred.model.toView
 import com.gentalhacode.alfred.presentation.extensions.loggerD
@@ -19,18 +19,13 @@ import com.gentalhacode.alfred.presentation.shopping_list.CreateShoppingListView
 import com.gentalhacode.alfred.presentation.shopping_list.DeleteShoppingListViewModel
 import com.gentalhacode.alfred.presentation.shopping_list.GetAllShoppingListViewModel
 import com.gentalhacode.alfred.presentation.shopping_list.GetShoppingListViewModel
-import com.gentalhacode.model.entities.IGrocery
 import com.gentalhacode.model.entities.IProduct
-import com.gentalhacode.model.entities.IUser
-import com.gentalhacode.util.SharedUtil
+import com.gentalhacode.util.onScrollListener
 import com.gentalhacode.util.randomUuid
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.UUID
-import java.util.UUID.randomUUID
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,15 +35,17 @@ class MainActivity : AppCompatActivity() {
     private val deleteViewModel: DeleteShoppingListViewModel by viewModel()
     private val fbAuth: FirebaseAuth by inject()
     private val currentUser: ViewUser by inject()
-    private val sharedPref: SharedUtil by inject()
-    private val currentShoppingListUuid: String by lazy {
-        sharedPref.currentShoppingListUuid
-    }
     private lateinit var currentShoppingList: ViewGrocery
 
     private val adapter: ShoppingListAdapter by lazy {
-        ShoppingListAdapter { product ->
-            currentShoppingList.products
+        ShoppingListAdapter { product, checked ->
+            val mutableList = currentShoppingList.products.toMutableList()
+            mutableList.map {
+                if (it.id == product.id) {
+                    it.isInTheCart = checked
+                }
+            }
+            currentShoppingList.products = mutableList
             createViewModel.create(currentShoppingList)
         }
     }
@@ -56,19 +53,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        getCurrentShoppingList()
         getAllViewModel.getAll()
         observeCreateShoppingListLiveData()
         observeGetAllShoppingListLiveData()
-        observeGetShoppingListLiveData()
+//        observeGetShoppingListLiveData()
         observeDeleteShoppingListLiveData()
         initActionsViews()
     }
 
-    private fun getCurrentShoppingList() = getViewModel.get(currentShoppingListUuid)
-
     private fun initActionsViews() {
         rvProduct.adapter = adapter
+        rvProduct.onScrollListener { _, dy ->
+            if (dy > 0) {
+                fab.hide()
+            } else {
+                fab.show()
+            }
+        }
         fab.setOnClickListener { buildProductBottomSheet() }
     }
 
@@ -87,7 +88,6 @@ class MainActivity : AppCompatActivity() {
             viewState.handle(
                 onLoading = { loggerL() },
                 onSuccess = { grocerys ->
-                    loggerS(grocerys.toString())
                     if (grocerys != null && grocerys.isNotEmpty()) {
                         val shoppingList = grocerys.first()
                         currentShoppingList = shoppingList.toView()
@@ -132,9 +132,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun makeShoppingList(): ViewGrocery {
-        sharedPref.currentShoppingListUuid = randomUuid()
         return ViewGrocery(
-            id = sharedPref.currentShoppingListUuid,
+            id = randomUuid(),
             active = true,
             products = mutableListOf(),
             emailUsers = listOf(currentUser.email)
@@ -148,12 +147,11 @@ class MainActivity : AppCompatActivity() {
                 if (!::currentShoppingList.isInitialized) {
                     currentShoppingList = makeShoppingList()
                 }
-                val newProducts: MutableList<IProduct> = currentShoppingList.products.toMutableList()
+                val newProducts: MutableList<IProduct> =
+                    currentShoppingList.products.toMutableList()
                 newProducts.add(viewProduct)
                 currentShoppingList.products = newProducts.toList()
-                loggerS("IGROCERY --> $currentShoppingList")
                 createViewModel.create(currentShoppingList)
-                loggerS("ADD -> ${currentShoppingList.products}")
                 dismiss()
             }
             setOnClickCancel { dismiss() }
