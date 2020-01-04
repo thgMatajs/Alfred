@@ -1,6 +1,8 @@
 package com.gentalhacode.util
 
+import android.content.Context
 import android.widget.EditText
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
@@ -18,4 +20,12 @@ fun RecyclerView.onScrollListener(onScrolled: (Int, Int) -> Unit) {
             onScrolled(dx, dy)
         }
     })
+}
+
+fun Context.toast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+}
+
+fun Context.toast(message: Int) {
+    Toast.makeText(this, this.getString(message), Toast.LENGTH_SHORT).show()
 }

@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +15,7 @@ import com.gentalhacode.util.ParamBlock
  * .:.:.:. Created by @thgMatajs on 29/12/19 .:.:.:.
  */
 class ShoppingListAdapter(
-    private val isChecked: (ViewProduct, Boolean) -> Unit,
+    private val isCheckedOnClick: (ViewProduct, Boolean) -> Unit,
     private val deleteOnClick: ParamBlock<ViewProduct>
 ) : ListAdapter<ViewProduct, ShoppingListAdapter.ViewHolder>(DiffUtilCallBack()) {
 
@@ -30,7 +29,7 @@ class ShoppingListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), isChecked, deleteOnClick)
+        holder.bind(getItem(position), isCheckedOnClick, deleteOnClick)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

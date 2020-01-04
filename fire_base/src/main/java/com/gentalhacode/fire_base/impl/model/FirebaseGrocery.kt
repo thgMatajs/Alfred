@@ -8,6 +8,6 @@ import com.gentalhacode.model.entities.IGrocery
 data class FirebaseGrocery(
     override var id: String = "",
     override var products: List<FirebaseProduct> = emptyList(),
-    override val emailUsers: List<String> = emptyList(),
+    override val emailUsers: MutableList<String> = mutableListOf(),
     override val active: Boolean = false
 ): IGrocery
