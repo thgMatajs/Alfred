@@ -7,5 +7,5 @@ interface IGrocery {
     var id: String
     val products: List<IProduct>
     val emailUsers: MutableList<String>
-    val active: Boolean
+    var active: Boolean
 }

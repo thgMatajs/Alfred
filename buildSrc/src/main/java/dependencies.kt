@@ -88,6 +88,8 @@ object Dependencies {
     val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
     val glideCompile = "com.github.bumptech.glide:compiler:${Versions.glide}"
 
+    val coil = "io.coil-kt:coil:0.9.1"
+
 }
 
 

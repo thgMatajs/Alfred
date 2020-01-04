@@ -4,9 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
+import coil.transform.CircleCropTransformation
 import com.gentalhacode.alfred.R
 import com.gentalhacode.alfred.model.ViewProduct
 import com.gentalhacode.util.ParamBlock
@@ -38,9 +41,13 @@ class ShoppingListAdapter(
                  deleteOnClick: ParamBlock<ViewProduct>) {
             itemView.run {
                 findViewById<TextView>(R.id.itemProductTvTitle).text = product.name
-                findViewById<TextView>(R.id.itemProductTvAmount).text = product.amount
-                findViewById<TextView>(R.id.itemProductTvBrand).text = product.brand
-//                findViewById<ImageView>(R.id.itemProductIv)
+                findViewById<TextView>(R.id.itemProductTvBrand).text = "Marca: ${product.brand}"
+                findViewById<TextView>(R.id.itemProductTvAmount).text = "Quantidade: ${product.amount}"
+                findViewById<ImageView>(R.id.itemProductIv).load(product.image) {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_photo)
+                    transformations(CircleCropTransformation())
+                }
                 findViewById<CheckBox>(R.id.itemProductCb).apply {
                     setOnCheckedChangeListener { _, _isChecked ->
                         checked.invoke(product, _isChecked)

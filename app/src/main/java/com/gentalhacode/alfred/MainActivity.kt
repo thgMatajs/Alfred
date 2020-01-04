@@ -9,6 +9,7 @@ import com.gentalhacode.alfred.adapters.ShoppingListAdapter
 import com.gentalhacode.alfred.bottomsheet.AddUserBottomSheet
 import com.gentalhacode.alfred.bottomsheet.ProductBottomSheet
 import com.gentalhacode.alfred.model.ViewGrocery
+import com.gentalhacode.alfred.model.ViewProduct
 import com.gentalhacode.alfred.model.ViewUser
 import com.gentalhacode.alfred.model.toView
 import com.gentalhacode.alfred.presentation.extensions.*
@@ -20,6 +21,7 @@ import com.gentalhacode.model.entities.IProduct
 import com.gentalhacode.util.onScrollListener
 import com.gentalhacode.util.randomUuid
 import com.gentalhacode.util.toast
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
@@ -33,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     private val deleteViewModel: DeleteShoppingListViewModel by viewModel()
     private val fbAuth: FirebaseAuth by inject()
     private val currentUser: ViewUser by inject()
-    private lateinit var currentShoppingList: ViewGrocery
+    private var currentShoppingList: ViewGrocery? = null
     private val adapter: ShoppingListAdapter by lazy { buildAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         observeCreateShoppingListLiveData()
         observeGetAllShoppingListLiveData()
 //        observeGetShoppingListLiveData()
-        observeDeleteShoppingListLiveData()
+//        observeDeleteShoppingListLiveData()
         initActionsViews()
     }
 
@@ -58,27 +60,51 @@ class MainActivity : AppCompatActivity() {
         }
         fab.setOnClickListener { buildProductBottomSheet() }
         addUser.setOnClickListener { buildAddUserInListBottomSheet() }
+        btnFinishProductList.setOnClickListener {
+            MaterialAlertDialogBuilder(this).apply {
+                setTitle("Deseja finalizar está lista?")
+                setMessage("Ao finalizar está lista não será mais possivel interagir com ela, deseja prosseguir?")
+                setPositiveButton("Sim") { _, _ ->
+                    finalizeProductList()
+                }
+                setNegativeButton("Cancelar") { _, _ -> }
+                show()
+            }
+        }
     }
 
     private fun buildAdapter(): ShoppingListAdapter {
         return ShoppingListAdapter(
             isCheckedOnClick = { product, checked ->
-                val mutableList = currentShoppingList.products.toMutableList()
-                mutableList.map {
-                    if (it.id == product.id) {
-                        it.isInTheCart = checked
+                currentShoppingList?.apply {
+                    val mutableList = products.toMutableList()
+                    mutableList.map {
+                        if (it.id == product.id) {
+                            it.isInTheCart = checked
+                        }
                     }
+                    products = mutableList
+                    createViewModel.create(this)
                 }
-                currentShoppingList.products = mutableList
-                createViewModel.create(currentShoppingList)
             },
             deleteOnClick = { viewProduct ->
-                val mutableList = currentShoppingList.products.toMutableList()
-                mutableList.removeAll { iProduct ->
-                    iProduct.id == viewProduct.id
+                MaterialAlertDialogBuilder(this).apply {
+                    setTitle("Deseja deletar este item?")
+                    setMessage("Realmente deseja deletar este item de sua lista de compras?")
+                    setPositiveButton("Sim") { _, _ ->
+                        currentShoppingList?.apply {
+                            val mutableList = products.toMutableList()
+                            mutableList.removeAll { iProduct ->
+                                iProduct.id == viewProduct.id
+                            }
+                            products = mutableList
+                            createViewModel.create(this)
+                            fab.show()
+                        }
+                    }
+                    setNegativeButton("Cancelar") { _, _ -> }
+                    show()
                 }
-                currentShoppingList.products = mutableList
-                createViewModel.create(currentShoppingList)
             })
     }
 
@@ -100,10 +126,9 @@ class MainActivity : AppCompatActivity() {
                     if (allGrocery != null && allGrocery.isNotEmpty()) {
                         val shoppingList = allGrocery.first()
                         currentShoppingList = shoppingList.toView()
-                        adapter.submitList(shoppingList.products.map { it.toView() })
-                        loading.setGone()
+                        handledProductList(shoppingList.products.map { it.toView() })
                     } else {
-                        adapter.submitList(emptyList())
+                        handledProductList(emptyList())
                         loading.setGone()
                     }
 
@@ -114,6 +139,22 @@ class MainActivity : AppCompatActivity() {
                 }
             )
         })
+    }
+
+    private fun handledProductList(products: List<ViewProduct>) {
+        if (products.isEmpty()) {
+            emptyView.setVisible()
+            btnFinishProductList.setGone()
+            loading.setGone()
+            addUser.setGone()
+            adapter.submitList(products)
+        } else {
+            adapter.submitList(products)
+            btnFinishProductList.setVisible()
+            loading.setGone()
+            addUser.setVisible()
+            emptyView.setGone()
+        }
     }
 
     private fun observeGetShoppingListLiveData() {
@@ -146,7 +187,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun makeShoppingList() {
-        if (!::currentShoppingList.isInitialized) {
+        if (currentShoppingList == null) {
             currentShoppingList = ViewGrocery(
                 id = randomUuid(),
                 active = true,
@@ -161,11 +202,13 @@ class MainActivity : AppCompatActivity() {
             setOnClickAdd { viewProduct ->
                 loggerD(viewProduct.toString())
                 makeShoppingList()
-                val newProducts: MutableList<IProduct> =
-                    currentShoppingList.products.toMutableList()
-                newProducts.add(viewProduct)
-                currentShoppingList.products = newProducts.toList()
-                createViewModel.create(currentShoppingList)
+                currentShoppingList?.let { shoppingList ->
+                    val newProducts: MutableList<IProduct> =
+                        shoppingList.products.toMutableList()
+                    newProducts.add(viewProduct)
+                    shoppingList.products = newProducts.toList()
+                    createViewModel.create(shoppingList)
+                }
                 dismiss()
             }
             setOnClickCancel { dismiss() }
@@ -177,12 +220,17 @@ class MainActivity : AppCompatActivity() {
         AddUserBottomSheet().apply {
             setOnClickAdd { email ->
                 makeShoppingList()
-                currentShoppingList.emailUsers.apply {
-                    if (!contains(email)) {
-                        add(email)
-                        createViewModel.create(currentShoppingList)
+                currentShoppingList?.let { shoppingList ->
+                    shoppingList.emailUsers.apply {
+                        if (!contains(email)) {
+                            add(email)
+                            createViewModel.create(shoppingList)
+                            toast("Colaborador adicionado com sucesso.")
+                        } else {
+                            toast("Este colaborador já tem acesso a está lista.")
+                        }
+                        loggerS(shoppingList.emailUsers.toString())
                     }
-                    loggerS(currentShoppingList.emailUsers.toString())
                 }
                 dismiss()
             }
@@ -191,6 +239,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun finalizeProductList() {
+        makeShoppingList()
+        currentShoppingList?.apply {
+            active = false
+            createViewModel.create(this)
+        }
+        currentShoppingList = null
+        toast("Lista finalizada com sucesso.")
+    }
 
     private fun signOut() {
         fbAuth.signOut()

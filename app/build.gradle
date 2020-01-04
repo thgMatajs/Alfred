@@ -63,6 +63,17 @@ android {
             buildConfigField "String", "GOOGLE_API_KEY", GOOGLE_API_KEY
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -100,6 +111,8 @@ dependencies {
     implementation Dependencies.firebaseStorage
     implementation Dependencies.firebasePerformance
     implementation Dependencies.servicesAuth
+
+    implementation Dependencies.coil
 
 }
 apply plugin: 'com.google.gms.google-services'

@@ -17,28 +17,30 @@
             android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="centerCrop"
+            android:background="@drawable/ic_photo"/>
 
         <TextView
             android:id="@+id/itemProductTvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="Açucar"
-            android:textSize="24sp"
-            android:textStyle="bold"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/itemProductIv"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/itemProductTvBrand"
             app:layout_constraintEnd_toStartOf="@id/itemProductCb"
-            app:layout_constraintBottom_toTopOf="@id/itemProductTvBrand"/>
+            app:layout_constraintStart_toEndOf="@+id/itemProductIv"
+            app:layout_constraintTop_toTopOf="@+id/itemProductIv"
+            tools:text="Açucar" />
 
         <TextView
             android:id="@+id/itemProductTvBrand"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             tools:text="União"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/itemProductTvTitle"
             app:layout_constraintTop_toBottomOf="@+id/itemProductTvTitle"
             app:layout_constraintEnd_toEndOf="@id/itemProductTvTitle"
@@ -51,28 +53,27 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/itemProductIv"
             app:layout_constraintStart_toStartOf="@id/itemProductTvTitle"
             app:layout_constraintTop_toBottomOf="@id/itemProductTvBrand"
             tools:text="2" />
 
         <TextView
-            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:id="@+id/itemProductBtnDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:drawableStart="@drawable/ic_delete"
-            app:layout_constraintTop_toTopOf="@+id/itemProductTvAmount"
-            app:layout_constraintEnd_toEndOf="@id/itemProductTvBrand"
-            />
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/itemProductIv"
+            app:layout_constraintEnd_toEndOf="@+id/itemProductCb"
+            app:layout_constraintTop_toTopOf="@+id/itemProductTvAmount" />
 
         <CheckBox
             android:id="@+id/itemProductCb"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            app:layout_constraintBottom_toBottomOf="@+id/itemProductTvAmount"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/itemProductTvTitle" />
     </androidx.constraintlayout.widget.ConstraintLayout>

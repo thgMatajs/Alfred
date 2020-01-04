@@ -11,7 +11,7 @@ data class ViewGrocery(
     override var id: String,
     override var products: List<IProduct>,
     override val emailUsers: MutableList<String>,
-    override val active: Boolean
+    override var active: Boolean
 ) : IGrocery
 
 fun IGrocery.toView() = ViewGrocery(
