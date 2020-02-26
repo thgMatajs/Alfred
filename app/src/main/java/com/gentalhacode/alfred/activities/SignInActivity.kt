@@ -4,11 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieAnimationView
+import com.crashlytics.android.Crashlytics
 import com.gentalhacode.alfred.BuildConfig
 import com.gentalhacode.alfred.MainActivity
 import com.gentalhacode.alfred.R
+import com.gentalhacode.alfred.presentation.extensions.loggerE
+import com.gentalhacode.alfred.presentation.extensions.sendCrashlytics
 import com.gentalhacode.alfred.presentation.extensions.setGone
 import com.gentalhacode.alfred.presentation.extensions.setVisible
+import com.gentalhacode.util.toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -63,7 +67,9 @@ class SignInActivity : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account!!)
             } catch (e: ApiException) {
-                println("THG_LOG:: Google sign in failed ${e.message}")
+                loggerE("${e.message}")
+                e.sendCrashlytics()
+                toast("Algo deu errado, tente novamente mais tarde.")
             }
         }
     }
@@ -76,7 +82,10 @@ class SignInActivity : AppCompatActivity() {
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 } else {
-                    println("THG_LOG::signInWithCredential:failure ${task.exception}")
+                    loggerE(task.exception?.message ?: "")
+                    task.exception.sendCrashlytics()
+                    toast("Algo deu errado, tente novamente mais tarde.")
+
                 }
             }
     }

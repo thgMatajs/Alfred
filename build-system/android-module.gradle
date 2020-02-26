@@ -34,9 +34,9 @@ android {
         }
 
         release {
-            manifestPlaceholders = [applicationLabel: "Embarcador"]
-            debuggable true
-            minifyEnabled false
+            manifestPlaceholders = [applicationLabel: ""]
+            debuggable false
+            minifyEnabled true
             buildConfigField "String", "BASE_URL", BASE_PROD_API
         }
     }

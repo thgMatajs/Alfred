@@ -90,6 +90,8 @@ object Dependencies {
 
     val coil = "io.coil-kt:coil:0.9.1"
 
+    val fotoapparat = "io.fotoapparat:fotoapparat:2.7.0"
+
 }
 
 

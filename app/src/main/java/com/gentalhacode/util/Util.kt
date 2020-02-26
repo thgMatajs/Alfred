@@ -13,6 +13,15 @@ fun randomUuid() = UUID.randomUUID().toString()
 
 fun EditText.value(): String = this.text.toString()
 
+fun EditText.isBlank(): Boolean {
+    return if (this.value().isBlank()) {
+        this.error = "Campo obrigatorio."
+        true
+    } else {
+        false
+    }
+}
+
 fun RecyclerView.onScrollListener(onScrolled: (Int, Int) -> Unit) {
     this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

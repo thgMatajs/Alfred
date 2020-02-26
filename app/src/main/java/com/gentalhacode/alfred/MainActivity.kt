@@ -113,7 +113,10 @@ class MainActivity : AppCompatActivity() {
             viewState.handle(
                 onLoading = { loggerL() },
                 onSuccess = { /*getCurrentShoppingList()*/ },
-                onFailure = { loggerE(it?.message ?: "") }
+                onFailure = {
+                    it.sendCrashlytics()
+                    loggerE(it?.message ?: "")
+                }
             )
         })
     }
@@ -135,6 +138,7 @@ class MainActivity : AppCompatActivity() {
                 },
                 onFailure = {
                     loggerE(it?.message ?: "")
+                    it.sendCrashlytics()
                     toast("Não foi possível carregar sua lista de compras.")
                 }
             )

@@ -15,4 +15,6 @@ dependencies {
     implementation Dependencies.rxAndroid
     implementation Dependencies.koin
     implementation Dependencies.koinViewModel
+
+    implementation Dependencies.firebaseCrashlytics
 }
