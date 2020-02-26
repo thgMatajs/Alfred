@@ -114,5 +114,6 @@ dependencies {
     implementation Dependencies.coil
     implementation Dependencies.fotoapparat
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }
 apply plugin: 'com.google.gms.google-services'

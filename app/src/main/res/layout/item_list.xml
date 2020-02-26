@@ -30,9 +30,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Quantidade de produtos:"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/itemListTxtTotalProducts"
             app:layout_constraintBottom_toBottomOf="@id/itemListTxtTotalProducts"
+            app:layout_constraintEnd_toStartOf="@+id/itemListTxtTotalProducts"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/itemListTxtTotalProducts" />
 
         <TextView
@@ -51,18 +53,32 @@
         <ImageButton
             android:id="@+id/itemListBtnAddProduct"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_add_product"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/itemListLblTotalProducts"/>
 
         <ImageButton
             android:id="@+id/itemListBtnAddUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_person_add"/>
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_person_add"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/itemListLblTotalProducts"
+            app:layout_constraintStart_toEndOf="@+id/itemListBtnAddProduct"/>
 
         <ImageButton
             android:id="@+id/itemListBtnEditList"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_edit"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/itemListLblTotalProducts"
+            app:layout_constraintStart_toEndOf="@id/itemListBtnAddUser"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

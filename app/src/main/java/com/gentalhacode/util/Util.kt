@@ -3,6 +3,7 @@ package com.gentalhacode.util
 import android.content.Context
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
@@ -37,4 +38,12 @@ fun Context.toast(message: String) {
 
 fun Context.toast(message: Int) {
     Toast.makeText(this, this.getString(message), Toast.LENGTH_SHORT).show()
+}
+
+fun Fragment.toast(message: String) {
+    Toast.makeText(this.requireContext(), message, Toast.LENGTH_SHORT).show()
+}
+
+fun Fragment.toast(message: Int) {
+    Toast.makeText(this.requireContext(), this.getString(message), Toast.LENGTH_SHORT).show()
 }

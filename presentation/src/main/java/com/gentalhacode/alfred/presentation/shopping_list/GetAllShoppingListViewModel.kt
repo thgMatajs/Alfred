@@ -19,7 +19,11 @@ class GetAllShoppingListViewModel(
     private val getAllLiveData: MutableLiveData<ViewState<List<IGrocery>>> = MutableLiveData()
     fun observeGetAllLiveData(): LiveData<ViewState<List<IGrocery>>> = getAllLiveData
 
-    fun getAll() {
+    init {
+        getAll()
+    }
+
+    private fun getAll() {
         getAllLiveData.setLoading()
         useCase.execute(
             onNext = { allShoppingLists ->

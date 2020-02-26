@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.gentalhacode.alfred.activities.SignInActivity
-import com.gentalhacode.alfred.adapters.ShoppingListAdapter
+import com.gentalhacode.alfred.adapters.ProductListAdapter
 import com.gentalhacode.alfred.bottomsheet.AddUserBottomSheet
 import com.gentalhacode.alfred.bottomsheet.ProductBottomSheet
 import com.gentalhacode.alfred.model.ViewGrocery
@@ -36,14 +36,13 @@ class MainActivity : AppCompatActivity() {
     private val fbAuth: FirebaseAuth by inject()
     private val currentUser: ViewUser by inject()
     private var currentShoppingList: ViewGrocery? = null
-    private val adapter: ShoppingListAdapter by lazy { buildAdapter() }
+    private val adapter: ProductListAdapter by lazy { buildAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        getAllViewModel.getAll()
         observeCreateShoppingListLiveData()
-        observeGetAllShoppingListLiveData()
+//        observeGetAllShoppingListLiveData()
 //        observeGetShoppingListLiveData()
 //        observeDeleteShoppingListLiveData()
         initActionsViews()
@@ -73,8 +72,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun buildAdapter(): ShoppingListAdapter {
-        return ShoppingListAdapter(
+    private fun buildAdapter(): ProductListAdapter {
+        return ProductListAdapter(
             isCheckedOnClick = { product, checked ->
                 currentShoppingList?.apply {
                     val mutableList = products.toMutableList()
@@ -121,7 +120,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun observeGetAllShoppingListLiveData() {
+    /*private fun observeGetAllShoppingListLiveData() {
         getAllViewModel.observeGetAllLiveData().observe(this, Observer { viewState ->
             viewState.handle(
                 onLoading = { loading.setVisible() },
@@ -143,7 +142,7 @@ class MainActivity : AppCompatActivity() {
                 }
             )
         })
-    }
+    }*/
 
     private fun handledProductList(products: List<ViewProduct>) {
         if (products.isEmpty()) {
@@ -196,7 +195,8 @@ class MainActivity : AppCompatActivity() {
                 id = randomUuid(),
                 active = true,
                 products = mutableListOf(),
-                emailUsers = mutableListOf(currentUser.email)
+                emailUsers = mutableListOf(currentUser.email),
+                name = ""
             )
         }
     }

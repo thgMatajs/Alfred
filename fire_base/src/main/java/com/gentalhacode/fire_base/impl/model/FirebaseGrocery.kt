@@ -9,5 +9,6 @@ data class FirebaseGrocery(
     override var id: String = "",
     override var products: List<FirebaseProduct> = emptyList(),
     override val emailUsers: MutableList<String> = mutableListOf(),
-    override var active: Boolean = false
+    override var active: Boolean = false,
+    override val name: String
 ): IGrocery
