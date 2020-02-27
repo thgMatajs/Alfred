@@ -79,7 +79,7 @@ class SignInActivity : AppCompatActivity() {
         fbAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, SingleActivity::class.java))
                     finish()
                 } else {
                     loggerE(task.exception?.message ?: "")

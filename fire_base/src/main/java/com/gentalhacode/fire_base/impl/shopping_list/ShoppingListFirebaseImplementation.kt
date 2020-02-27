@@ -84,7 +84,7 @@ class ShoppingListFirebaseImplementation(
     override fun getAll(): Flowable<List<IGrocery>> {
         return Flowable.create({ emitter ->
             collection.whereArrayContains(FieldPath.of(USERS_KEY), currentUser?.email as Any)
-                .whereEqualTo("active", true)
+//                .whereEqualTo("active", true)
                 .addSnapshotListener { result, error ->
                     if (error == null && result != null) {
                         val list = result.map { document ->

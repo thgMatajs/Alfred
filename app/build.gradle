@@ -89,6 +89,8 @@ dependencies {
     implementation Dependencies.materialDesign
     implementation Dependencies.cardView
     implementation Dependencies.constraintLayout
+    implementation Dependencies.navigationFragment
+    implementation Dependencies.navigationUiKtx
 
     implementation Dependencies.koin
     implementation Dependencies.koinAndorid
@@ -113,7 +115,5 @@ dependencies {
 
     implementation Dependencies.coil
     implementation Dependencies.fotoapparat
-
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }
 apply plugin: 'com.google.gms.google-services'

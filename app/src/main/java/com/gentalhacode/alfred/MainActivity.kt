@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        observeCreateShoppingListLiveData()
+//        observeCreateShoppingListLiveData()
 //        observeGetAllShoppingListLiveData()
 //        observeGetShoppingListLiveData()
 //        observeDeleteShoppingListLiveData()
@@ -57,8 +57,8 @@ class MainActivity : AppCompatActivity() {
                 fab.show()
             }
         }
-        fab.setOnClickListener { buildProductBottomSheet() }
-        addUser.setOnClickListener { buildAddUserInListBottomSheet() }
+//        fab.setOnClickListener { buildProductBottomSheet() }
+//        addUser.setOnClickListener { buildAddUserInListBottomSheet() }
         btnFinishProductList.setOnClickListener {
             MaterialAlertDialogBuilder(this).apply {
                 setTitle("Deseja finalizar está lista?")
@@ -201,7 +201,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun buildProductBottomSheet() {
+    /*private fun buildProductBottomSheet() {
         ProductBottomSheet().apply {
             setOnClickAdd { viewProduct ->
                 loggerD(viewProduct.toString())
@@ -241,7 +241,7 @@ class MainActivity : AppCompatActivity() {
             setOnClickCancel { dismiss() }
             show(supportFragmentManager, AddUserBottomSheet.TAG)
         }
-    }
+    }*/
 
     private fun finalizeProductList() {
         makeShoppingList()

@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.gentalhacode.alfred.R
 import com.gentalhacode.alfred.model.ViewGrocery
-import com.gentalhacode.util.Action
 import com.gentalhacode.util.ParamBlock
 
 /**

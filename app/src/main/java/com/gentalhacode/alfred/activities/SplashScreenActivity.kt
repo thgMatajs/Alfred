@@ -32,7 +32,7 @@ class SplashScreenActivity : AppCompatActivity(), CoroutineScope {
                     startActivity(Intent(this@SplashScreenActivity, SignInActivity::class.java))
                     finish()
                 } else {
-                    startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
+                    startActivity(Intent(this@SplashScreenActivity, SingleActivity::class.java))
                     finish()
                 }
             }
